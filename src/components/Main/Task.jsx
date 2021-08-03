@@ -1,38 +1,46 @@
-import { timeHandler } from "../../utils/time-hanadler";
+import React from 'react';
+import { timeHandler } from '../../utils/time-handler';
+import { dragEnterHandler, dragStartHandler } from '../../utils/drag-n-drop';
 
 function Task(props) {
-  const { title, id, discription, publishDate, columnIndex, taskIndex, dragItem, dragStartHandler, dragging, dragEnterHandler } = props;
+  const {
+    items, task, columnIndex, taskIndex
+  } = props;
+  const {
+    title, id, description, publishDate, assignee
+  } = task;
   const getStyles = (params) => {
-    const currentTask = dragItem.current;
-    if (currentTask.columnIndex === params.columnIndex &&
-      currentTask.taskIndex === params.taskIndex) {
-      return 'current task'
+    const currentTask = items.dragItem.current;
+    if (
+      currentTask.columnIndex === params.columnIndex
+      && currentTask.taskIndex === params.taskIndex
+    ) {
+      return 'current task';
     }
-    return 'task'
+    return 'task';
   };
-
   return (
     <div
       data-id={id}
-      className={dragging ? getStyles({ columnIndex, taskIndex }) : 'task'}
-      draggable={"true"}
-      onDragStart={(e) => dragStartHandler(e, { columnIndex, taskIndex })}
-      onDragEnter={dragging ? (e) => dragEnterHandler(e, { columnIndex, taskIndex }) : null}
+      className={
+        items.dragging ? getStyles({ columnIndex, taskIndex }) : 'task'
+      }
+      draggable
+      onDragStart={
+        (e) => dragStartHandler(e, { columnIndex, taskIndex }, items)
+      }
+      onDragEnter={
+        items.dragging
+          ? (e) => dragEnterHandler(e, { columnIndex, taskIndex }, items)
+          : null
+      }
     >
-          <div className="task-title">
-            {title}
-          </div>
-          <div className="task-discription">
-            {discription}
-          </div>
-          <div className="task-footer">
-            <div className="title-publish_date">
-              {timeHandler(publishDate)}
-            </div>
-            <div className="title-assignee">
-              вася
-            </div>
-          </div>
+      <div className="task-title">{title}</div>
+      <div className="task-discription">{description}</div>
+      <div className="task-footer">
+        <div className="title-publish_date">{timeHandler(publishDate)}</div>
+        <div className="title-assignee">{assignee}</div>
+      </div>
     </div>
   );
 }
