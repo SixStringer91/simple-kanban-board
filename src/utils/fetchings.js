@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch';
 // https://immense-plains-02487.herokuapp.com
-export const URL = 'https://immense-plains-02487.herokuapp.com';
+export const URL = 'http://localhost:80';
 
 const POST = 'POST';
 const PUT = 'PUT';
@@ -22,17 +22,16 @@ export const fetchColumnTasks = async (columnId, items) => {
   const {
     setColumns, columnIndex, isLoader
   } = items;
-  const tasks = await fetch(`${URL}/columns/${columnId}/tasks`).then(
-    (data) => data.json()
-  );
-  isLoader.current = false;
-  if (tasks.length) {
+  const resp = await fetch(`${URL}/columns/${columnId}/tasks`);
+  if (resp.ok) {
+    isLoader.current = false;
+    const tasks = await resp.json();
     setColumns((oldColumnn) => {
       const newColumn = JSON.parse(JSON.stringify(oldColumnn));
       newColumn[columnIndex].tasks = tasks;
       return newColumn;
     });
-  }
+  } else fetchColumnTasks(columnId, items);
 };
 
 export const createTask = async (columnId, params) => {
