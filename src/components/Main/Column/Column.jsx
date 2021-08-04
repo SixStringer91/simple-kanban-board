@@ -1,15 +1,21 @@
 import React, { useState } from 'react';
-import { dragEnterHandler } from '../../utils/drag-n-drop';
-import NewTaskForm from './NewTaskForm';
+import { dragEnterHandler } from '../../../utils/drag-n-drop';
+import NewTaskForm from './NewTaskForm/NewTaskForm';
+import { hexToRGB } from '../../../utils/color-handler';
 
 function Column(props) {
   const {
-    items, columnId, taskLength, columnIndex, title, children
+    items, columnId, color, taskLength, columnIndex, title, children
   } = props;
   const [taskForm, setTaskForm] = useState(false);
   return (
     <div
       className="column"
+      style={
+        {
+          backgroundColor: hexToRGB(color, 0.7)
+        }
+      }
       onDragEnter={
         items.dragging && !taskLength
           ? (e) => dragEnterHandler(e, { columnIndex, taskIndex: 0 }, items)
@@ -17,7 +23,7 @@ function Column(props) {
       }
     >
       <div className="column-header">
-        <div className="colimn-title">{title}</div>
+        <div className="column-title">{title}</div>
         <button
           type="button"
           onClick={() => setTaskForm((prev) => !prev)}
@@ -31,7 +37,9 @@ function Column(props) {
         columnId={columnId}
         taskForm={taskForm}
       />
-      <div className="task-wrapper">{children}</div>
+      <div className="task-wrapper">
+        {children}
+      </div>
     </div>
   );
 }

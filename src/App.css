@@ -37,7 +37,7 @@
 
 
 .task {
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.8);
   margin-bottom: 5px;
   border-radius: 2px;
   padding: 5px;
@@ -109,8 +109,53 @@
   width: 100%;
   outline: none;
 }
+.task-title{
+  display: flex;
+  justify-content: space-between;
+}
 
 .task_form label {
   display: block;
   margin-bottom: 5px;
 }
+
+.close {
+  position: relative;
+  opacity: 0.3;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+  }
+  .close:hover {
+  opacity: 1;
+  }
+  .close:before, .close:after {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  margin: auto;
+  content: '';
+  height: 16px;
+  width: 2px;
+  background-color: #333;
+  }
+  .close:before {
+  transform: rotate(45deg);
+  }
+  .close:after {
+  transform: rotate(-45deg);
+  }
+
+  .form-creator{
+    background-color: rgba(235, 236, 240, 0.6);
+    width: max-content;
+    height: max-content;
+    border-radius: 4px;
+    border: 2px solid;
+    margin: 20px;
+    cursor: grab;
+    padding: 5px 5px;
+    transition: max-content 2s;
+  }

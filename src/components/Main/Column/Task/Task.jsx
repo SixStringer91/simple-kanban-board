@@ -1,6 +1,8 @@
 import React from 'react';
-import { timeHandler } from '../../utils/time-handler';
-import { dragEnterHandler, dragStartHandler } from '../../utils/drag-n-drop';
+import { timeHandler } from '../../../../utils/time-handler';
+import {
+  dragEnterHandler, dragStartHandler, deleteTaskHandler
+} from '../../../../utils/drag-n-drop';
 
 function Task(props) {
   const {
@@ -35,7 +37,21 @@ function Task(props) {
           : null
       }
     >
-      <div className="task-title">{title}</div>
+      <div className="task-title">
+        <span>{title}</span>
+        <span
+          role="button"
+          tabIndex={0}
+          aria-label="some button"
+          onClick={
+            () => deleteTaskHandler({ id, columnIndex }, items)
+          }
+          onKeyDown={
+            () => deleteTaskHandler({ id, columnIndex }, items)
+          }
+          className="close"
+        />
+      </div>
       <div className="task-discription">{description}</div>
       <div className="task-footer">
         <div className="title-publish_date">{timeHandler(publishDate)}</div>

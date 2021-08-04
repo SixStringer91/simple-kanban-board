@@ -1,4 +1,4 @@
-import { updateTask } from './fetchings';
+import { deleteTask, updateTask } from './fetchings';
 
 export const dragEnterHandler = (e, params, items) => {
   const { dragItem, dragNode, setColumns } = items;
@@ -51,4 +51,15 @@ export const dragStartHandler = (e, params, items) => {
   setTimeout(() => {
     setDragging(true);
   }, 0);
+};
+
+export const deleteTaskHandler = async (params, items) => {
+  const { id, columnIndex } = params;
+  const { setColumns } = items;
+  const updated = await deleteTask(id);
+  setColumns((oldColumnn) => {
+    const newColumn = JSON.parse(JSON.stringify(oldColumnn));
+    newColumn[columnIndex].tasks = updated;
+    return newColumn;
+  });
 };

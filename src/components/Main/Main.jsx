@@ -1,9 +1,10 @@
 import React, {
   useState, useRef, useEffect, useMemo
 } from 'react';
-import Column from './Column';
-import Task from './Task';
-import { fetchBoard } from '../../utils/fetchings';
+import Column from './Column/Column';
+import Task from './Column/Task/Task';
+import NewColumnForm from './Forms/ColumnCreatorForm';
+import { getBoard } from '../../utils/fetchings';
 
 function Main() {
   const dragItem = useRef();
@@ -12,7 +13,7 @@ function Main() {
   const [columns, setColumns] = useState(null);
 
   useEffect(() => {
-    fetchBoard(setColumns);
+    getBoard(setColumns);
   }, []);
 
   const columnIds = useMemo(() => {
@@ -52,6 +53,7 @@ function Main() {
         {
         ...{
           items,
+          color: column.color,
           columnId: column.id,
           title: column.title,
           taskLength: column.tasks.length,
@@ -67,6 +69,7 @@ function Main() {
     <div className="main">
       <div className="column-wrapper">
         {columnsRender}
+        <NewColumnForm items={{ setColumns }} />
       </div>
     </div>
   );

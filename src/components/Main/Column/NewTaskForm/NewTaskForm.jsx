@@ -1,5 +1,5 @@
 import React from 'react';
-import { taskSubmitHandler } from '../../utils/form-handlers';
+import { taskSubmitHandler } from '../../../../utils/form-handlers';
 
 function NewTaskForm(props) {
   const { taskForm } = props;
