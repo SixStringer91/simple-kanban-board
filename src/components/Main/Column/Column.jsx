@@ -1,21 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { dragEnterHandler } from '../../../utils/drag-n-drop';
 import NewTaskForm from '../Forms/Tasks/TaskCreator';
 import { hexToRGB } from '../../../utils/color-handler';
 import Task from './Task/Task';
+import { fetchColumnTasks } from '../../../utils/fetchings';
+import loader from '../../../assets/loader.svg';
 
 function Column(props) {
   const {
     items,
     columnId,
     color,
-    taskLength,
     columnIndex,
     title,
     tasks,
     state
   } = props;
   const [taskForm, setTaskForm] = useState(false);
+
+  const isLoader = useRef(true);
+
+  useEffect(() => {
+    fetchColumnTasks(columnId, { ...items, columnIndex, isLoader });
+  }, []);
 
   const tasksRender = tasks.map(
     (task, taskIndex) => (
@@ -42,7 +49,7 @@ function Column(props) {
         }
       }
       onDragEnter={
-        items.dragging && !taskLength
+        items.dragging && !tasks.length
           ? (e) => dragEnterHandler(e, { columnIndex, taskIndex: 0 }, items)
           : null
       }
@@ -63,7 +70,9 @@ function Column(props) {
         taskForm={taskForm}
       />
       <div className="task-wrapper">
-        {tasksRender}
+        {isLoader.current
+          ? <img className="task_loader" alt="loader" src={loader} />
+          : tasksRender}
       </div>
     </div>
   );

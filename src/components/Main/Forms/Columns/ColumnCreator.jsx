@@ -12,7 +12,7 @@ function NewColumnForm({ items }) {
   return (
     <form
       onSubmit={
-        (e) => columnSubmitHandler({ ...state, e }, items)
+        (e) => columnSubmitHandler({ ...state, dispatch, e }, items)
       }
       className="form-creator"
     >

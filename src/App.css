@@ -73,7 +73,7 @@ body {
 
 .column-wrapper{
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 
 .column-header{
@@ -90,7 +90,8 @@ body {
 
 .column {
   background-color: rgba(235, 236, 240, 0.6);
-  min-width: 200px;
+  min-width: 300px;
+  width: 300px;
   height: max-content;
   border-radius: 4px;
   margin: 20px;
@@ -112,6 +113,13 @@ body {
   border-radius: 2px;
   padding: 5px;
   cursor: grab;
+}
+
+.task_loader{
+  display: inline;
+  margin: 0 auto;
+  height: 20px;
+  width: auto;
 }
 
 .task-title{
@@ -233,8 +241,8 @@ body {
   }
 
   .form-creator{
-    display: block;
-    margin-left:auto;
+    display: inline-block;
+    margin-left: auto !important;
     background-color: rgba(235, 236, 240, 0.6);
     width: max-content;
     height: max-content;
