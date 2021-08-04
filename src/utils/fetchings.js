@@ -11,10 +11,11 @@ const headers = {
 };
 
 export const getBoard = async (setColumns) => {
-  const columns = await fetch(`${URL}/columns`).then((data) => data.json());
-  if (columns.length) {
+  const resp = await fetch(`${URL}/columns`);
+  if (resp.ok) {
+    const columns = await resp.json();
     setColumns(columns);
-  }
+  } else getBoard(setColumns);
 };
 
 export const fetchColumnTasks = async (columnId, items) => {
