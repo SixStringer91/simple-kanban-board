@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch';
-// https://immense-plains-02487.herokuapp.com
-export const URL = 'http://localhost:80';
+
+export const URL = 'https://immense-plains-02487.herokuapp.com';
 
 const POST = 'POST';
 const PUT = 'PUT';
