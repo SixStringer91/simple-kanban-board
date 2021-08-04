@@ -1,13 +1,38 @@
 import React, { useState } from 'react';
 import { dragEnterHandler } from '../../../utils/drag-n-drop';
-import NewTaskForm from './NewTaskForm/NewTaskForm';
+import NewTaskForm from '../Forms/Tasks/TaskCreator';
 import { hexToRGB } from '../../../utils/color-handler';
+import Task from './Task/Task';
 
 function Column(props) {
   const {
-    items, columnId, color, taskLength, columnIndex, title, children
+    items,
+    columnId,
+    color,
+    taskLength,
+    columnIndex,
+    title,
+    tasks,
+    state
   } = props;
   const [taskForm, setTaskForm] = useState(false);
+
+  const tasksRender = tasks.map(
+    (task, taskIndex) => (
+      <Task
+        key={task.id}
+        {
+        ...{
+          items,
+          task,
+          state,
+          columnIndex,
+          taskIndex
+        }}
+      />
+    )
+  ).sort((a, b) => a.order - b.order);
+
   return (
     <div
       className="column"
@@ -38,7 +63,7 @@ function Column(props) {
         taskForm={taskForm}
       />
       <div className="task-wrapper">
-        {children}
+        {tasksRender}
       </div>
     </div>
   );

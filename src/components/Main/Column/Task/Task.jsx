@@ -6,11 +6,14 @@ import {
 
 function Task(props) {
   const {
-    items, task, columnIndex, taskIndex
+    items, state, task, columnIndex, taskIndex
   } = props;
   const {
     title, id, description, publishDate, assignee
   } = task;
+  const {
+    descriptionView, assigneeView, dateView
+  } = state;
   const getStyles = (params) => {
     const currentTask = items.dragItem.current;
     if (
@@ -21,6 +24,18 @@ function Task(props) {
     }
     return 'task';
   };
+
+  const assigneeRender = assignee.map(
+    (user) => (
+      <div
+        key={user}
+        className="assignee_render"
+      >
+        <span>{user[0]}</span>
+      </div>
+    )
+  );
+
   return (
     <div
       data-id={id}
@@ -52,10 +67,12 @@ function Task(props) {
           className="close"
         />
       </div>
-      <div className="task-discription">{description}</div>
+      <div className="task-discription">{descriptionView && description}</div>
       <div className="task-footer">
-        <div className="title-publish_date">{timeHandler(publishDate)}</div>
-        <div className="title-assignee">{assignee}</div>
+        <div className="title-publish_date">
+          {dateView && timeHandler(publishDate)}
+        </div>
+        <div className="title-assignee">{assigneeView && assigneeRender}</div>
       </div>
     </div>
   );

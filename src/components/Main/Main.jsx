@@ -2,11 +2,11 @@ import React, {
   useState, useRef, useEffect, useMemo
 } from 'react';
 import Column from './Column/Column';
-import Task from './Column/Task/Task';
-import NewColumnForm from './Forms/ColumnCreatorForm';
+import NewColumnForm from './Forms/Columns/ColumnCreator';
 import { getBoard } from '../../utils/fetchings';
+import loader from '../../assets/loader.svg';
 
-function Main() {
+function Main({ state }) {
   const dragItem = useRef();
   const dragNode = useRef();
   const [dragging, setDragging] = useState(false);
@@ -32,44 +32,35 @@ function Main() {
     columnIds
   };
 
-  const columnsRender = columns ? columns.map((column, columnIndex) => {
-    const tasks = column.tasks.map(
-      (task, taskIndex) => (
-        <Task
-          key={task.id}
-          {
-          ...{
-            items,
-            task,
-            columnIndex,
-            taskIndex
-          }}
-        />
-      )
-    ).sort((a, b) => a.order - b.order);
-    return (
-      <Column
-        key={column.id}
-        {
-        ...{
-          items,
-          color: column.color,
-          columnId: column.id,
-          title: column.title,
-          taskLength: column.tasks.length,
-          columnIndex
-        }}
-      >
-        {tasks}
-      </Column>
-    );
-  }) : 'loading ...';
+  const columnsRender = columns && columns.map(({
+    color, tasks, id, title
+  }, columnIndex) => (
+    <Column
+      key={id}
+      {
+      ...{
+        color,
+        tasks,
+        columnId: id,
+        title,
+        columnIndex,
+        state,
+        items
+      }}
+    />
+  ));
 
   return (
     <div className="main">
       <div className="column-wrapper">
-        {columnsRender}
-        <NewColumnForm items={{ setColumns }} />
+        {columns
+          ? (
+            <>
+              {columnsRender}
+              <NewColumnForm items={{ setColumns }} />
+            </>
+          )
+          : <img className="main-loader" alt="loader" src={loader} />}
       </div>
     </div>
   );

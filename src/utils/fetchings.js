@@ -2,6 +2,14 @@ import fetch from 'cross-fetch';
 
 export const URL = 'http://localhost:8080';
 
+const POST = 'POST';
+const PUT = 'PUT';
+const DELETE = 'DELETE';
+
+const headers = {
+  'Content-Type': 'application/json'
+};
+
 export const getBoard = async (setColumns) => {
   const columns = await fetch(`${URL}/columns`).then((data) => data.json());
   if (columns.length) {
@@ -20,10 +28,8 @@ export const getBoard = async (setColumns) => {
 export const createTask = async (columnId, params) => {
   const { title, description, assignee } = params;
   const updated = await fetch(`${URL}/tasks/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    method: POST,
+    headers,
     body: JSON.stringify({
       columnId,
       title,
@@ -37,10 +43,8 @@ export const createTask = async (columnId, params) => {
 export const updateTask = async (params) => {
   const { id, columnId, taskIndex } = params;
   const updated = await fetch(`${URL}/tasks/${id}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    method: PUT,
+    headers,
     body: JSON.stringify({
       order: taskIndex,
       columnId
@@ -51,7 +55,7 @@ export const updateTask = async (params) => {
 
 export const deleteTask = async (id) => {
   const updated = await fetch(`${URL}/tasks/${id}`, {
-    method: 'DELETE',
+    method: DELETE,
     headers: {
       'Content-Type': 'application/json'
     }
@@ -62,10 +66,8 @@ export const deleteTask = async (id) => {
 export const createColumn = async (params) => {
   const { title, color } = params;
   const updated = await fetch(`${URL}/columns/`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    method: POST,
+    headers,
     body: JSON.stringify({
       title,
       color
