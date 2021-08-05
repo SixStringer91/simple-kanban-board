@@ -1,4 +1,4 @@
-import { VIEW_DESCRIPTION, VIEW_DATE, VIEW_ASSIGNEE } from './constants';
+import { VIEW_DESCRIPTION, VIEW_DATE, VIEW_ASSIGNEE } from '../utils/constants';
 
 export const initialState = {
   descriptionView: true,

@@ -5,7 +5,7 @@ import {
   reducer,
   setColorAC,
   setTitleAC
-} from '../../../../utils/column-form-reducer';
+} from '../../../../reducers/column-form-reducer';
 
 function NewColumnForm({ items }) {
   const [state, dispatch] = useReducer(reducer, initialState);

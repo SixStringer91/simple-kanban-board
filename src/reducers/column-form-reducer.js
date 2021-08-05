@@ -1,6 +1,6 @@
 import {
   SET_COLOR, SET_TITLE, RESET_FORM, BASE_COLOR
-} from './constants';
+} from '../utils/constants';
 
 export const setColorAC = (payload) => ({
   type: SET_COLOR,

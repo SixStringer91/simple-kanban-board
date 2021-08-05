@@ -1,5 +1,7 @@
 import React from 'react';
-import { deleteFromAssigneeListAC } from '../../../../utils/task-form-reducer';
+import {
+  deleteFromAssigneeListAC
+} from '../../../../reducers/task-form-reducer';
 
 function Assignee({ user, i, dispatch }) {
   const assigneeDelete = () => {

@@ -5,7 +5,7 @@ import {
   SET_ASSIGNEE_LIST,
   DELETE_FROM_ASSIGNEE_LIST,
   RESET_FORM
-} from './constants';
+} from '../utils/constants';
 
 export const setAssigneeAC = (payload) => ({
   type: SET_ASSIGNEE,

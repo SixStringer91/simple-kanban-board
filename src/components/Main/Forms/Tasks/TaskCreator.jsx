@@ -7,7 +7,7 @@ import {
   setTitleAC,
   setDescriptionAC,
   setAssigneeListAC
-} from '../../../../utils/task-form-reducer';
+} from '../../../../reducers/task-form-reducer';
 import Assignee from './Assignee';
 
 function NewTaskForm(props) {

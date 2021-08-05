@@ -1,4 +1,4 @@
-export const URL = 'https://immense-plains-02487.herokuapp.com';
+export const URL = 'http://immense-plains-02487.herokuapp.com';
 export const HEADERS = {
   'Content-Type': 'application/json'
 };

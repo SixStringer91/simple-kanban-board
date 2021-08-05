@@ -1,6 +1,6 @@
 import { createTask, createColumn } from './fetchings';
-import { resetColumnFormAC } from './column-form-reducer';
-import { resetTaskFormAC } from './task-form-reducer';
+import { resetColumnFormAC } from '../reducers/column-form-reducer';
+import { resetTaskFormAC } from '../reducers/task-form-reducer';
 
 export const taskSubmitHandler = async (state, columnParams, dispatch) => {
   const {
