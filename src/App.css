@@ -2,7 +2,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
-  font-family: Poppins;
+  font-family: Poppins, Franklin Gothic Medium;
 }
 .main-loader{
   margin: auto;
@@ -43,6 +43,8 @@ body {
 	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 	background-size: 400% 400%;
 	animation: gradient 600s ease infinite;
+  overflow: scroll;
+  height: calc(100vh - 8px);
 }
 
 @keyframes gradient {
@@ -61,8 +63,7 @@ body {
   height: 30px;
 }
 .app{
-  width: 100vw;
-  height: 100vh;
+  min-height: 100%;
 }
 
 .header{
@@ -385,4 +386,20 @@ body {
   input[type="color"]::-webkit-color-swatch {
     border: solid 2px white;
     border-radius: 40px;
+  }
+
+  body::-webkit-scrollbar-track {
+    border-radius: 4px;
+  }
+  body::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    background: rgba(45, 48, 56, 0.8);
+  }
+  body::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+  background-color: #476072;
+  }
+  body:hover::-webkit-scrollbar-thumb {
+  background-color: #476072;
   }

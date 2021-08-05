@@ -9,13 +9,15 @@ export const getBoard = async (setColumns) => {
   if (resp.ok) {
     const columns = await resp.json();
     setColumns(columns);
-  } else getBoard(setColumns);
+  } else {
+    setTimeout(() => {
+      getBoard(setColumns);
+    }, 5000);
+  }
 };
 
 export const fetchColumnTasks = async (columnId, items) => {
-  const {
-    setColumns, columnIndex, isLoader
-  } = items;
+  const { setColumns, columnIndex, isLoader } = items;
   const resp = await fetch(`${URL}/columns/${columnId}/tasks`);
   if (resp.ok) {
     isLoader.current = false;
@@ -25,7 +27,11 @@ export const fetchColumnTasks = async (columnId, items) => {
       newColumn[columnIndex].tasks = tasks;
       return newColumn;
     });
-  } else fetchColumnTasks(columnId, items);
+  } else {
+    setTimeout(() => {
+      fetchColumnTasks(columnId, items);
+    }, 10000);
+  }
 };
 
 export const createTask = async (columnId, params) => {
