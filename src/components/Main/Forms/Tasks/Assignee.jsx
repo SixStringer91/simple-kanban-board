@@ -1,13 +1,11 @@
 import React from 'react';
+import { deleteFromAssigneeListAC } from '../../../../utils/task-form-reducer';
 
-function Assignee({ user, i, addUsers }) {
+function Assignee({ user, i, dispatch }) {
   const assigneeDelete = () => {
-    addUsers((oldList) => {
-      const newList = [...oldList];
-      newList.splice(i, 1);
-      return newList;
-    });
+    dispatch(deleteFromAssigneeListAC(i));
   };
+
   return (
     <div className="form_assignee">
       {user}

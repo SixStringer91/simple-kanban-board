@@ -1,18 +1,21 @@
 import { createTask, createColumn } from './fetchings';
-import { resetFormAC } from './column-form-reducer';
+import { resetColumnFormAC } from './column-form-reducer';
+import { resetTaskFormAC } from './task-form-reducer';
 
-export const taskSubmitHandler = async (e, columnParams, users) => {
-  e.preventDefault();
-  const { columnId, columnIndex, setColumns } = columnParams;
-  const { description, title } = e.target.elements;
+export const taskSubmitHandler = async (state, columnParams, dispatch) => {
+  const {
+    columnId, columnIndex, setColumns, isLoader
+  } = columnParams;
+  const { description, title, assigneeList } = state;
   const params = {
-    description: description.value,
-    title: title.value,
-    assignee: users
+    description,
+    title,
+    assignee: assigneeList
   };
+  isLoader.current = true;
   const updatedTasks = await createTask(columnId, params);
-  description.value = '';
-  title.value = '';
+  dispatch(resetTaskFormAC());
+  isLoader.current = false;
   setColumns((oldBoard) => {
     const newColumn = JSON.parse(JSON.stringify(oldBoard));
     newColumn[columnIndex].tasks = [...updatedTasks];
@@ -28,7 +31,7 @@ export const columnSubmitHandler = async (params, items) => {
   const { setColumns } = items;
   const newColumn = await createColumn({ color, title });
   if (newColumn) {
-    dispatch(resetFormAC());
+    dispatch(resetColumnFormAC());
     setColumns((oldBoard) => {
       const newColumns = JSON.parse(JSON.stringify(oldBoard));
       newColumns.push(newColumn);

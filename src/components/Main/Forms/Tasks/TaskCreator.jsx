@@ -1,37 +1,50 @@
-import React, { useState } from 'react';
+import React, { useReducer } from 'react';
 import { taskSubmitHandler } from '../../../../utils/form-handlers';
+import {
+  initialState,
+  reducer,
+  setAssigneeAC,
+  setTitleAC,
+  setDescriptionAC,
+  setAssigneeListAC
+} from '../../../../utils/task-form-reducer';
 import Assignee from './Assignee';
 
 function NewTaskForm(props) {
-  const { taskForm } = props;
-  const [users, addUsers] = useState([]);
+  const { taskForm, setTaskForm } = props;
+  const [state, dispatch] = useReducer(reducer, initialState);
+  const {
+    assigneeList, assignee, title, description
+  } = state;
 
-  const usersRender = users.map(
+  const usersRender = assigneeList.map(
     (user, i) => (
       <Assignee
         key={`${user}${i}`}
         user={user}
         i={i}
-        addUsers={addUsers}
+        dispatch={dispatch}
       />
     )
   );
 
-  const assigneeHandler = (e) => {
-    const input = e.target.previousSibling;
-    if (input.value) {
-      addUsers((oldUsers) => {
-        const newUsers = [...oldUsers];
-        const indexCheck = newUsers.indexOf(input.value);
-        if (indexCheck === -1) newUsers.push(input.value);
-        return newUsers;
-      });
+  const preSubmitHandler = (e) => {
+    e.preventDefault();
+    if (description.length && title.length && assigneeList.length) {
+      setTaskForm(false);
+      taskSubmitHandler(state, props, dispatch);
     }
+  };
+
+  const assigneeHandler = () => {
+    const indexCheck = state.assigneeList.indexOf(assignee);
+    if (indexCheck === -1
+      && assignee.length) dispatch(setAssigneeListAC(assignee));
   };
 
   return (
     <form
-      onSubmit={(e) => taskSubmitHandler(e, props, users)}
+      onSubmit={preSubmitHandler}
       style={{
         display: `${taskForm ? 'block' : 'none'}`
       }}
@@ -39,6 +52,8 @@ function NewTaskForm(props) {
     >
       <label>
         <input
+          value={title}
+          onChange={(e) => dispatch(setTitleAC(e.target.value))}
           autoComplete="off"
           className="task_title"
           placeholder="task title"
@@ -48,6 +63,8 @@ function NewTaskForm(props) {
       </label>
       <label>
         <textarea
+          value={description}
+          onChange={(e) => dispatch(setDescriptionAC(e.target.value))}
           autoComplete="off"
           className="task_description"
           placeholder="task description"
@@ -57,6 +74,8 @@ function NewTaskForm(props) {
       </label>
       <label>
         <input
+          value={assignee}
+          onChange={(e) => dispatch(setAssigneeAC(e.target.value))}
           autoComplete="off"
           className="assign_title"
           placeholder="assignee"
@@ -67,7 +86,7 @@ function NewTaskForm(props) {
           className="btn"
           name="assignee"
           type="button"
-          onClick={(e) => assigneeHandler(e)}
+          onClick={assigneeHandler}
         >
           add
         </button>

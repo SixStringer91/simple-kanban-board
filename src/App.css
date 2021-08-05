@@ -113,6 +113,7 @@ body {
   border-radius: 2px;
   padding: 5px;
   cursor: grab;
+  transition: opacity .3s;
 }
 
 .task_loader{

@@ -3,7 +3,7 @@ import {
   VIEW_DESCRIPTION,
   VIEW_ASSIGNEE,
   VIEW_DATE
-} from '../../utils/view-reducer';
+} from '../../utils/constants';
 
 function Header({ dispatch, state }) {
   const { descriptionView, assigneeView, dateView } = state;

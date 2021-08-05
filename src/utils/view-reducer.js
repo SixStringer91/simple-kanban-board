@@ -1,6 +1,4 @@
-export const VIEW_DESCRIPTION = 'VIEW_DESCRIPTION';
-export const VIEW_DATE = 'VIEW_DATE';
-export const VIEW_ASSIGNEE = 'VIEW_ASSIGNEE';
+import { VIEW_DESCRIPTION, VIEW_DATE, VIEW_ASSIGNEE } from './constants';
 
 export const initialState = {
   descriptionView: true,

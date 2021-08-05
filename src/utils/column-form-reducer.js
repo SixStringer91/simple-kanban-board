@@ -1,7 +1,6 @@
-const BASE_COLOR = '#F14668';
-export const SET_COLOR = 'SET_COLOR';
-export const SET_TITLE = 'SET_TITLE';
-export const RESET_FORM = 'RESET_FORM';
+import {
+  SET_COLOR, SET_TITLE, RESET_FORM, BASE_COLOR
+} from './constants';
 
 export const setColorAC = (payload) => ({
   type: SET_COLOR,
@@ -13,7 +12,7 @@ export const setTitleAC = (payload) => ({
   payload
 });
 
-export const resetFormAC = () => ({
+export const resetColumnFormAC = () => ({
   type: RESET_FORM
 });
 

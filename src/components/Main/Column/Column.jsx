@@ -34,7 +34,8 @@ function Column(props) {
           task,
           state,
           columnIndex,
-          taskIndex
+          taskIndex,
+          isLoader
         }}
       />
     )
@@ -50,12 +51,18 @@ function Column(props) {
       }
       onDragEnter={
         items.dragging && !tasks.length
-          ? (e) => dragEnterHandler(e, { columnIndex, taskIndex: 0 }, items)
+          ? (e) => dragEnterHandler(
+            e, { columnIndex, taskIndex: 0 }, { ...items, isLoader }
+          )
           : null
       }
     >
       <div className="column-header">
         <div className="column-title">{title}</div>
+        {
+        isLoader.current
+        && <img className="task_loader" alt="loader" src={loader} />
+        }
         <button
           type="button"
           onClick={() => setTaskForm((prev) => !prev)}
@@ -64,15 +71,15 @@ function Column(props) {
         />
       </div>
       <NewTaskForm
+        isLoader={isLoader}
+        setTaskForm={setTaskForm}
         setColumns={items.setColumns}
         columnIndex={columnIndex}
         columnId={columnId}
         taskForm={taskForm}
       />
       <div className="task-wrapper">
-        {isLoader.current
-          ? <img className="task_loader" alt="loader" src={loader} />
-          : tasksRender}
+        {tasksRender}
       </div>
     </div>
   );

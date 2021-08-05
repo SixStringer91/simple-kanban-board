@@ -6,7 +6,7 @@ import {
 
 function Task(props) {
   const {
-    items, state, task, columnIndex, taskIndex
+    items, state, task, columnIndex, taskIndex, isLoader
   } = props;
   const {
     title, id, description, publishDate, assignee
@@ -43,12 +43,19 @@ function Task(props) {
         items.dragging ? getStyles({ columnIndex, taskIndex }) : 'task'
       }
       draggable
+      onDragLeave={() => {
+        isLoader.current = false;
+      }}
       onDragStart={
-        (e) => dragStartHandler(e, { columnIndex, taskIndex }, items)
+        (e) => dragStartHandler(
+          e, { columnIndex, taskIndex }, { ...items, isLoader }
+        )
       }
       onDragEnter={
         items.dragging
-          ? (e) => dragEnterHandler(e, { columnIndex, taskIndex }, items)
+          ? (e) => dragEnterHandler(
+            e, { columnIndex, taskIndex }, { ...items, isLoader }
+          )
           : null
       }
     >

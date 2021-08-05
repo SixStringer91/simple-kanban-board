@@ -1,14 +1,8 @@
 import fetch from 'cross-fetch';
 
-export const URL = 'https://immense-plains-02487.herokuapp.com';
-
-const POST = 'POST';
-const PUT = 'PUT';
-const DELETE = 'DELETE';
-
-const headers = {
-  'Content-Type': 'application/json'
-};
+import {
+  POST, PUT, URL, DELETE, HEADERS
+} from './constants';
 
 export const getBoard = async (setColumns) => {
   const resp = await fetch(`${URL}/columns`);
@@ -38,7 +32,7 @@ export const createTask = async (columnId, params) => {
   const { title, description, assignee } = params;
   const updated = await fetch(`${URL}/tasks/`, {
     method: POST,
-    headers,
+    headers: HEADERS,
     body: JSON.stringify({
       columnId,
       title,
@@ -53,7 +47,7 @@ export const updateTask = async (params) => {
   const { id, columnId, taskIndex } = params;
   const updated = await fetch(`${URL}/tasks/${id}`, {
     method: PUT,
-    headers,
+    headers: HEADERS,
     body: JSON.stringify({
       order: taskIndex,
       columnId
@@ -76,7 +70,7 @@ export const createColumn = async (params) => {
   const { title, color } = params;
   const updated = await fetch(`${URL}/columns/`, {
     method: POST,
-    headers,
+    headers: HEADERS,
     body: JSON.stringify({
       title,
       color
