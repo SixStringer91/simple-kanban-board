@@ -42,18 +42,18 @@ function Task(props) {
       className={
         items.dragging ? getStyles({ columnIndex, taskIndex }) : 'task'
       }
-      draggable
+      draggable={!isLoader.current}
       onDragLeave={() => {
         isLoader.current = false;
       }}
       onDragStart={
-        (e) => dragStartHandler(
+        (e) => !isLoader.current && dragStartHandler(
           e, { columnIndex, taskIndex }, { ...items, isLoader }
         )
       }
       onDragEnter={
         items.dragging
-          ? (e) => dragEnterHandler(
+          ? (e) => !isLoader.current && dragEnterHandler(
             e, { columnIndex, taskIndex }, { ...items, isLoader }
           )
           : null

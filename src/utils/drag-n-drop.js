@@ -28,33 +28,41 @@ export const dragEndHandler = async (items) => {
     dragItem, dragNode, setDragging, setColumns, columnIds, isLoader
   } = items;
   const params = dragItem.current;
-  const { columnIndex, taskIndex } = params;
-  const { id } = dragNode.current.dataset;
-  const columnId = columnIds[columnIndex];
-  const updatedTasks = await updateTask({ id, columnId, taskIndex });
-  isLoader.current = false;
-  setColumns((oldColumnn) => {
-    const newColumn = JSON.parse(JSON.stringify(oldColumnn));
-    newColumn[params.columnIndex].tasks = updatedTasks;
-    return newColumn;
-  });
-  dragItem.current = null;
-  dragNode.current = null;
-  setDragging(false);
+  if (params) {
+    const { columnIndex, taskIndex } = params;
+    const { id } = dragNode.current.dataset;
+    const columnId = columnIds[columnIndex];
+    const updatedTasks = await updateTask({ id, columnId, taskIndex });
+    setColumns((oldColumnn) => {
+      const newColumn = JSON.parse(JSON.stringify(oldColumnn));
+      newColumn[params.columnIndex].tasks = [...updatedTasks];
+      return newColumn;
+    });
+    isLoader.current = false;
+    dragItem.current = null;
+    dragNode.current = null;
+    setDragging(false);
+  }
 };
 
 export const dragStartHandler = (e, params, items) => {
-  const { dragItem, dragNode, setDragging } = items;
-  dragItem.current = params;
-  dragNode.current = e.target;
-  dragNode.current.addEventListener(
-    'dragend',
-    () => dragEndHandler({ ...params, ...items }),
-    { once: true }
-  );
-  setTimeout(() => {
-    setDragging(true);
-  }, 0);
+  const target = e.target.closest('.task');
+  if (target) {
+    const {
+      dragItem, dragNode, setDragging, isLoader
+    } = items;
+    dragItem.current = params;
+    dragNode.current = target;
+    isLoader.current = true;
+    dragNode.current.addEventListener(
+      'dragend',
+      () => dragEndHandler({ ...params, ...items }),
+      { once: true }
+    );
+    setTimeout(() => {
+      setDragging(true);
+    }, 0);
+  }
 };
 
 export const deleteTaskHandler = async (params, items) => {
