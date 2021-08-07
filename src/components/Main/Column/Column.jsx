@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState, useEffect, useRef
+} from 'react';
 import { dragEnterHandler } from '../../../utils/drag-n-drop';
 import NewTaskForm from '../Forms/Tasks/TaskCreator';
 import { hexToRGB } from '../../../utils/color-handler';
@@ -21,8 +23,10 @@ function Column(props) {
   const isLoader = useRef(true);
 
   useEffect(() => {
-    fetchColumnTasks(columnId, { ...items, columnIndex, isLoader });
+    fetchColumnTasks(columnId, { ...items, columnIndex });
   }, []);
+
+  useEffect(() => { isLoader.current = false; }, [tasks]);
 
   const tasksRender = tasks.map(
     (task, taskIndex) => (
@@ -40,7 +44,6 @@ function Column(props) {
       />
     )
   ).sort((a, b) => a.order - b.order);
-
   return (
     <div
       className="column"
@@ -51,17 +54,23 @@ function Column(props) {
       }
       onDragEnter={
         items.dragging && !tasks.length
-          ? (e) => dragEnterHandler(
-            e, { columnIndex, taskIndex: 0 }, { ...items, isLoader }
-          )
+          ? (e) => {
+            const message = 'message';
+            if (!isLoader.current) {
+              dragEnterHandler(
+                e, { columnIndex, taskIndex: 0 },
+                { ...items, isLoader, message }
+              );
+            }
+          }
           : null
       }
     >
       <div className="column-header">
         <div className="column-title">{title}</div>
         {
-        isLoader.current
-        && <img className="task_loader" alt="loader" src={loader} />
+          isLoader.current
+          && <img className="task_loader" alt="loader" src={loader} />
         }
         <button
           type="button"

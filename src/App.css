@@ -97,7 +97,8 @@ body {
   border-radius: 4px;
   margin: 20px;
   padding: 5px 5px;
-  transition: max-content 2s;
+  -webkit-user-select: none;
+  user-select:none;
 }
 
 
@@ -115,6 +116,9 @@ body {
   padding: 5px;
   cursor: grab;
   transition: opacity .3s;
+}
+.task * {
+  user-select: none;
 }
 
 .task_loader{
@@ -186,11 +190,24 @@ body {
 }
 
 .task_form {
+  display: none;
+}
+
+.task_form.active{
+  display: block;
   padding: 10px;
-  background-color: rgba(255, 255, 255, 0.8);
+  background-color: hsla(0,0%,100%,.8);
   margin-bottom: 5px;
   border-radius: 2px;
 }
+
+
+
+
+@keyframes task_form_animate {
+    from {height: 0; }
+    to { height: max-content; }
+  }
 .task_description{
   display: block;
   outline: none;

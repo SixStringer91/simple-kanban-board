@@ -5,7 +5,7 @@ import {
 } from './constants';
 
 export const getBoard = async (setColumns) => {
-  const resp = await fetch(`${URL}/columns`);
+  const resp = await fetch(`${URL}/columns`).catch((err) => err);
   if (resp.ok) {
     const columns = await resp.json();
     setColumns(columns);
@@ -17,10 +17,10 @@ export const getBoard = async (setColumns) => {
 };
 
 export const fetchColumnTasks = async (columnId, items) => {
-  const { setColumns, columnIndex, isLoader } = items;
-  const resp = await fetch(`${URL}/columns/${columnId}/tasks`);
+  const { setColumns, columnIndex } = items;
+  const resp = await fetch(`${URL}/columns/${columnId}/tasks`)
+    .catch((err) => err);
   if (resp.ok) {
-    isLoader.current = false;
     const tasks = await resp.json();
     setColumns((oldColumnn) => {
       const newColumn = JSON.parse(JSON.stringify(oldColumnn));

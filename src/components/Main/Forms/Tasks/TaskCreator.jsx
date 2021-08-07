@@ -45,10 +45,7 @@ function NewTaskForm(props) {
   return (
     <form
       onSubmit={preSubmitHandler}
-      style={{
-        display: `${taskForm ? 'block' : 'none'}`
-      }}
-      className="task_form"
+      className={taskForm ? 'task_form active' : 'task_form'}
     >
       <label>
         <input
