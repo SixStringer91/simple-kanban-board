@@ -6,9 +6,11 @@ import NewColumnForm from './Forms/Columns/ColumnCreator';
 import { getBoard } from '../../utils/fetchings';
 import loader from '../../assets/loader.svg';
 
-function Main({ state }) {
-  const dragItem = useRef();
-  const dragNode = useRef();
+function Main({ settings }) {
+  const dragItem = useRef(null);
+  const dragNode = useRef(null);
+  const dragDispatch = useRef(null);
+  const dragParams = useRef(null);
   const [dragging, setDragging] = useState(false);
   const [columns, setColumns] = useState(null);
 
@@ -29,7 +31,9 @@ function Main({ state }) {
     dragItem,
     dragNode,
     dragging,
-    columnIds
+    columnIds,
+    dragDispatch,
+    dragParams
   };
 
   const columnsRender = columns && columns.map(({
@@ -44,7 +48,7 @@ function Main({ state }) {
         columnId: id,
         title,
         columnIndex,
-        state,
+        settings,
         items
       }}
     />

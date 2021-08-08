@@ -1,10 +1,11 @@
 import { createTask, createColumn } from './fetchings';
 import { resetColumnFormAC } from '../reducers/column-form-reducer';
 import { resetTaskFormAC } from '../reducers/task-form-reducer';
+import { setAllTasksAC } from '../reducers/column-reducer';
 
 export const taskSubmitHandler = async (state, columnParams, dispatch) => {
   const {
-    columnId, columnIndex, setColumns, isLoader
+    columnId, taskDispatch
   } = columnParams;
   const { description, title, assigneeList } = state;
   const params = {
@@ -12,15 +13,9 @@ export const taskSubmitHandler = async (state, columnParams, dispatch) => {
     title,
     assignee: assigneeList
   };
-  isLoader.current = true;
   const updatedTasks = await createTask(columnId, params);
   dispatch(resetTaskFormAC());
-  isLoader.current = false;
-  setColumns((oldBoard) => {
-    const newColumn = JSON.parse(JSON.stringify(oldBoard));
-    newColumn[columnIndex].tasks = [...updatedTasks];
-    return newColumn;
-  });
+  taskDispatch(setAllTasksAC(updatedTasks));
 };
 
 export const columnSubmitHandler = async (params, items) => {

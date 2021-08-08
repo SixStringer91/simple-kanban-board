@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, useRef
+  useEffect, useReducer
 } from 'react';
 import { dragEnterHandler } from '../../../utils/drag-n-drop';
 import NewTaskForm from '../Forms/Tasks/TaskCreator';
@@ -7,6 +7,9 @@ import { hexToRGB } from '../../../utils/color-handler';
 import Task from './Task/Task';
 import { fetchColumnTasks } from '../../../utils/fetchings';
 import loader from '../../../assets/loader.svg';
+import {
+  reducer, initialState, setTaskFormAC
+} from '../../../reducers/column-reducer';
 
 function Column(props) {
   const {
@@ -15,18 +18,15 @@ function Column(props) {
     color,
     columnIndex,
     title,
-    tasks,
-    state
+    settings
   } = props;
-  const [taskForm, setTaskForm] = useState(false);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  const isLoader = useRef(true);
+  const { tasks, isLoader, taskForm } = state;
 
   useEffect(() => {
-    fetchColumnTasks(columnId, { ...items, columnIndex });
+    fetchColumnTasks(columnId, dispatch);
   }, []);
-
-  useEffect(() => { isLoader.current = false; }, [tasks]);
 
   const tasksRender = tasks.map(
     (task, taskIndex) => (
@@ -36,10 +36,11 @@ function Column(props) {
         ...{
           items,
           task,
-          state,
+          settings,
           columnIndex,
           taskIndex,
-          isLoader
+          isLoader,
+          dispatch
         }}
       />
     )
@@ -55,11 +56,10 @@ function Column(props) {
       onDragEnter={
         items.dragging && !tasks.length
           ? (e) => {
-            const message = 'message';
-            if (!isLoader.current) {
+            if (!isLoader) {
               dragEnterHandler(
                 e, { columnIndex, taskIndex: 0 },
-                { ...items, isLoader, message }
+                { ...items, dispatch }
               );
             }
           }
@@ -69,19 +69,18 @@ function Column(props) {
       <div className="column-header">
         <div className="column-title">{title}</div>
         {
-          isLoader.current
+          isLoader
           && <img className="task_loader" alt="loader" src={loader} />
         }
         <button
           type="button"
-          onClick={() => setTaskForm((prev) => !prev)}
+          onClick={() => dispatch(setTaskFormAC(!taskForm))}
           className={`${taskForm ? 'add active' : 'add'}`}
           aria-label="some button"
         />
       </div>
       <NewTaskForm
-        isLoader={isLoader}
-        setTaskForm={setTaskForm}
+        taskDispatch={dispatch}
         setColumns={items.setColumns}
         columnIndex={columnIndex}
         columnId={columnId}

@@ -10,7 +10,7 @@ function App() {
   return (
     <div className="app">
       <Header dispatch={dispatch} state={state} />
-      <Main state={state} />
+      <Main settings={state} />
     </div>
   );
 }

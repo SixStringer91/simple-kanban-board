@@ -6,14 +6,15 @@ import {
 
 function Task(props) {
   const {
-    items, state, task, columnIndex, taskIndex, isLoader
+    items, settings, task, columnIndex, taskIndex, isLoader, dispatch
   } = props;
   const {
     title, id, description, publishDate, assignee
   } = task;
   const {
     descriptionView, assigneeView, dateView
-  } = state;
+  } = settings;
+
   const getStyles = (params) => {
     const currentTask = items.dragItem.current;
     if (
@@ -42,19 +43,16 @@ function Task(props) {
       className={
         items.dragging ? getStyles({ columnIndex, taskIndex }) : 'task'
       }
-      draggable={!isLoader.current}
-      onDragLeave={() => {
-        isLoader.current = false;
-      }}
+      draggable={!isLoader}
       onDragStart={
-        (e) => !isLoader.current && dragStartHandler(
-          e, { columnIndex, taskIndex }, { ...items, isLoader }
+        (e) => !isLoader && dragStartHandler(
+          e, { columnIndex, taskIndex }, { ...items, dispatch, task }
         )
       }
       onDragEnter={
         items.dragging
-          ? (e) => !isLoader.current && dragEnterHandler(
-            e, { columnIndex, taskIndex }, { ...items, isLoader }
+          ? (e) => dragEnterHandler(
+            e, { columnIndex, taskIndex }, { ...items, dispatch }
           )
           : null
       }
@@ -66,10 +64,12 @@ function Task(props) {
           tabIndex={0}
           aria-label="some button"
           onClick={
-            () => deleteTaskHandler({ id, columnIndex }, items)
+            () => !isLoader
+            && deleteTaskHandler({ id, taskIndex }, { ...items, dispatch })
           }
           onKeyDown={
-            () => deleteTaskHandler({ id, columnIndex }, items)
+            () => !isLoader
+            && deleteTaskHandler({ id, taskIndex }, { ...items, dispatch })
           }
           className="close"
         />

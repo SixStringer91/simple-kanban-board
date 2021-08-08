@@ -9,9 +9,10 @@ import {
   setAssigneeListAC
 } from '../../../../reducers/task-form-reducer';
 import Assignee from './Assignee';
+import { setTaskFormSubmitAC } from '../../../../reducers/column-reducer';
 
 function NewTaskForm(props) {
-  const { taskForm, setTaskForm } = props;
+  const { taskForm, taskDispatch } = props;
   const [state, dispatch] = useReducer(reducer, initialState);
   const {
     assigneeList, assignee, title, description
@@ -31,7 +32,7 @@ function NewTaskForm(props) {
   const preSubmitHandler = (e) => {
     e.preventDefault();
     if (description.length && title.length && assigneeList.length) {
-      setTaskForm(false);
+      taskDispatch(setTaskFormSubmitAC(false));
       taskSubmitHandler(state, props, dispatch);
     }
   };

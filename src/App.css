@@ -8,6 +8,11 @@
   margin: auto;
 }
 
+.main{
+  height: calc(100% - 25px);
+  overflow-x: scroll;
+}
+
 input, textarea{
   padding: 2px;
   border:1px solid #F14668;
@@ -43,8 +48,6 @@ body {
 	background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
 	background-size: 400% 400%;
 	animation: gradient 600s ease infinite;
-  overflow: scroll;
-  height: calc(100vh - 8px);
 }
 
 @keyframes gradient {
@@ -63,7 +66,7 @@ body {
   height: 30px;
 }
 .app{
-  min-height: 100%;
+  height: 100vh;
 }
 
 .header{
@@ -405,18 +408,19 @@ body {
     border-radius: 40px;
   }
 
-  body::-webkit-scrollbar-track {
+  .main::-webkit-scrollbar-track {
     border-radius: 4px;
   }
-  body::-webkit-scrollbar {
+  .main::-webkit-scrollbar {
     width: 8px;
     height: 8px;
-    background: rgba(45, 48, 56, 0.8);
+    background: transparent;
   }
-  body::-webkit-scrollbar-thumb {
+  .main::-webkit-scrollbar-thumb {
     border-radius: 4px;
-  background-color: #476072;
+  background-color: rgba(94, 94, 89, 0.5);
   }
-  body:hover::-webkit-scrollbar-thumb {
-  background-color: #476072;
+  .main:hover::-webkit-scrollbar-thumb {
+    background-color: rgba(94, 94, 89, 0.5);
+
   }

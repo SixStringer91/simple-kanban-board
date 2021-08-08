@@ -1,55 +1,81 @@
 import { deleteTask, updateTask } from './fetchings';
+import {
+  setAllTasksAC,
+  setLoaderAC,
+  setTaskInSameColumnAC,
+  deleteTaskAC,
+  addTaskAC
+} from '../reducers/column-reducer';
 
 export const dragEnterHandler = (e, params, items) => {
   const {
-    dragItem, dragNode, setColumns, isLoader
+    dragItem, dragParams, dragNode, dispatch, columnIds, dragDispatch
   } = items;
-  const currentTask = dragItem.current;
   if (e.target !== dragNode.current) {
-    setColumns((oldColumnn) => {
-      const newColumn = JSON.parse(JSON.stringify(oldColumnn));
-      newColumn[params.columnIndex].tasks.splice(
-        params.taskIndex,
-        0,
-        newColumn[currentTask.columnIndex].tasks.splice(
-          currentTask.taskIndex,
-          1
-        )[0]
+    if (dragParams.current.columnId === columnIds[params.columnIndex]) {
+      dispatch(
+        setTaskInSameColumnAC({
+          taskIndex: params.taskIndex,
+          dragIndex: dragItem.current.taskIndex
+        })
       );
-      dragItem.current = params;
-      isLoader.current = true;
-      return newColumn;
-    });
+    } else {
+      dragParams.current.columnId = columnIds[params.columnIndex];
+      dragDispatch.current(
+        deleteTaskAC({
+          taskIndex: dragItem.taskIndex
+        })
+      );
+      dragDispatch.current = dispatch;
+      dragDispatch.current(
+        addTaskAC({
+          taskIndex: params.taskIndex,
+          dragParams: dragParams.current
+        })
+      );
+    }
+    dragItem.current = params;
   }
 };
 
 export const dragEndHandler = async (items) => {
   const {
-    dragItem, dragNode, setDragging, setColumns, columnIds
+    dragItem,
+    dragNode,
+    columnIds,
+    setDragging,
+    dragDispatch,
+    dragParams
   } = items;
   const params = dragItem.current;
   const { columnIndex, taskIndex } = params;
   const { id } = dragNode.current.dataset;
   const columnId = columnIds[columnIndex];
   const updatedTasks = await updateTask({ id, columnId, taskIndex });
-  setColumns((oldColumnn) => {
-    const newColumn = JSON.parse(JSON.stringify(oldColumnn));
-    newColumn[params.columnIndex].tasks = [...updatedTasks];
-    return newColumn;
-  });
+  dragDispatch.current(setAllTasksAC(updatedTasks));
   dragItem.current = null;
   dragNode.current = null;
+  dragDispatch.current = null;
+  dragParams.current = null;
   setDragging(false);
 };
 
 export const dragStartHandler = (e, params, items) => {
   const target = e.target.closest('.task');
   const {
-    dragItem, dragNode, setDragging, isLoader
+    dragItem,
+    dragNode,
+    setDragging,
+    dragParams,
+    dragDispatch,
+    dispatch,
+    task
   } = items;
   dragItem.current = params;
   dragNode.current = target;
-  isLoader.current = true;
+  dragParams.current = task;
+  dragDispatch.current = dispatch;
+  dragDispatch.current(setLoaderAC(true));
   dragNode.current.addEventListener(
     'dragend',
     () => dragEndHandler({ ...params, ...items }),
@@ -61,12 +87,10 @@ export const dragStartHandler = (e, params, items) => {
 };
 
 export const deleteTaskHandler = async (params, items) => {
-  const { id, columnIndex } = params;
-  const { setColumns } = items;
+  const { id, taskIndex } = params;
+  const { dispatch } = items;
+  console.log(taskIndex);
+  dispatch(deleteTaskAC(taskIndex));
   const updated = await deleteTask(id);
-  setColumns((oldColumnn) => {
-    const newColumn = JSON.parse(JSON.stringify(oldColumnn));
-    newColumn[columnIndex].tasks = updated;
-    return newColumn;
-  });
+  dispatch(setAllTasksAC(updated));
 };

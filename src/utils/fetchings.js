@@ -1,4 +1,5 @@
 import fetch from 'cross-fetch';
+import { setAllTasksAC } from '../reducers/column-reducer';
 
 import {
   POST, PUT, URL, DELETE, HEADERS
@@ -16,20 +17,15 @@ export const getBoard = async (setColumns) => {
   }
 };
 
-export const fetchColumnTasks = async (columnId, items) => {
-  const { setColumns, columnIndex } = items;
+export const fetchColumnTasks = async (columnId, dispatch) => {
   const resp = await fetch(`${URL}/columns/${columnId}/tasks`)
     .catch((err) => err);
   if (resp.ok) {
     const tasks = await resp.json();
-    setColumns((oldColumnn) => {
-      const newColumn = JSON.parse(JSON.stringify(oldColumnn));
-      newColumn[columnIndex].tasks = tasks;
-      return newColumn;
-    });
+    dispatch(setAllTasksAC(tasks));
   } else {
     setTimeout(() => {
-      fetchColumnTasks(columnId, items);
+      fetchColumnTasks(columnId, dispatch);
     }, 10000);
   }
 };
