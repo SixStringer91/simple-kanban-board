@@ -45,6 +45,7 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   const tasks = [...state.tasks];
+  const { taskIndex, dragParams } = action.payload;
   switch (action.type) {
     case ADD_TASK:
       const index = tasks.findIndex(
@@ -53,14 +54,14 @@ export const reducer = (state, action) => {
       if (index !== -1) {
         tasks.splice(index, 1);
       }
-      tasks.splice(action.payload.taskIndex, 0, action.payload.dragParams);
+      tasks.splice(taskIndex, 0, dragParams);
       return {
         ...state,
         isLoader: true,
         tasks: tasks.map((task, i) => ({ ...task, order: i }))
       };
     case DELETE_TASK:
-      tasks.splice(action.payload, 1);
+      tasks.splice(taskIndex, 1);
       return {
         ...state,
         isLoader: false,

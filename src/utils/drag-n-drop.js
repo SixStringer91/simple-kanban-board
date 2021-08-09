@@ -14,12 +14,12 @@ export const dragEnterHandler = async (e, params, items) => {
     if (dragParams.current.columnId !== columnIds[params.columnIndex]) {
       dragDispatch.current(
         deleteTaskAC({
-          taskIndex: dragItem.taskIndex
+          taskIndex: dragItem.current.taskIndex
         })
       );
-      dragDispatch.current = dispatch;
-      dragParams.current.columnId = columnIds[params.columnIndex];
     }
+    dragDispatch.current = dispatch;
+    dragParams.current.columnId = columnIds[params.columnIndex];
     dragDispatch.current(
       addTaskAC({
         taskIndex: params.taskIndex,
@@ -81,7 +81,6 @@ export const dragStartHandler = (e, params, items) => {
 export const deleteTaskHandler = async (params, items) => {
   const { id, taskIndex } = params;
   const { dispatch } = items;
-  console.log(taskIndex);
   dispatch(deleteTaskAC(taskIndex));
   const updated = await deleteTask(id);
   dispatch(setAllTasksAC(updated));

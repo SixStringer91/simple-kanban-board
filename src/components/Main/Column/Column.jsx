@@ -24,7 +24,6 @@ function Column(props) {
   const {
     tasks, isLoader, taskForm
   } = state;
-  console.log(columnId);
 
   useEffect(() => {
     fetchColumnTasks(columnId, dispatch);
