@@ -12,7 +12,7 @@ export const dragEnterHandler = async (e, params, items) => {
   } = items;
   const target = e.target.closest('.task');
   const isColumnHasTask = target
-    ? (e.clientY >= target.offsetTop + (target.offsetHeight / 2))
+    ? (e.clientY >= target.offsetTop + (target.offsetHeight / 3))
     : true;
   if (target !== dragNode.current
     && isColumnHasTask) {

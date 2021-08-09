@@ -9,7 +9,8 @@
 }
 
 .main{
-  height: calc(100% - 25px);
+  margin: 0 20px;
+  height: calc(100% - 100px);
   overflow-x: scroll;
 }
 
@@ -61,18 +62,32 @@ body {
 		background-position: 0% 50%;
 	}
 }
+
 .logo{
   display: block;
   height: 30px;
 }
+
 .app{
   height: 100vh;
 }
 
 .header{
+  position: relative;
   font-family: Georgia, 'Times New Roman', Times, serif;
   display: flex;
-  align-items:center
+  justify-content: center;
+  align-items:center;
+  margin: 0 10px;
+  height: 80px;
+}
+
+.scand-logo{
+  position: absolute;
+  left: 0;
+  display: block;
+  height: 80px;
+  margin-right: auto;
 }
 
 .column-wrapper{
@@ -82,14 +97,17 @@ body {
 
 .column {
   background-color: rgba(235, 236, 240, 0.6);
-  min-width: 300px;
-  width: 300px;
+  min-width: 280px;
+  width: 280px;
   height: max-content;
   border-radius: 4px;
-  margin: 20px;
   padding: 5px 0px 5px 5px;
   -webkit-user-select: none;
   user-select:none;
+}
+
+.column {
+  margin-right: 20px;
 }
 
 .column-header{
@@ -122,6 +140,7 @@ body {
   cursor: grab;
   transition: opacity .3s;
 }
+
 .task * {
   user-select: none;
 }
@@ -163,6 +182,7 @@ body {
   z-index: 100;
   transition: 0.4s cubic-bezier(0.2, 0.6, 0.3, 1.1);
 }
+
 .add:after {
   content: '';
   position: absolute;
@@ -272,7 +292,6 @@ body {
     height: max-content;
     border-radius: 4px;
     border: 2px solid transparent;
-    margin: 20px;
     cursor: grab;
     padding: 5px 5px;
     transition: max-content 2s;
@@ -435,8 +454,31 @@ body {
   }
   .task-wrapper::-webkit-scrollbar-thumb {
     border-radius: 4px;
-  background-color: rgba(94, 94, 89, 0.5);
+  background-color: rgba(6, 181, 194, 0.5);
   }
   .task-wrapper:hover::-webkit-scrollbar-thumb {
-    background-color: rgba(94, 94, 89, 0.5);
+    background-color: rgba(6, 181, 194, 0.5);
+  }
+
+  .main {
+    scrollbar-width:thin;
+    scrollbar-color:rgba(94, 94, 89, 0.5) transparent;
+  }
+  .task-wrapper {
+    scrollbar-width: thin;
+    scrollbar-color:rgba(6, 181, 194, 0.5) transparent;
+  }
+ 
+
+  @media (max-width:628px) {
+
+    .check-box__wrapper{
+      display: flex;
+      flex-direction: column;
+      margin: 0 10px 0 auto; 
+
+    }
+    .custom-checkbox>span::before{
+      order: 0;
+    }
   }

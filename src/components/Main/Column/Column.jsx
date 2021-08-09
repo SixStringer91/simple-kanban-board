@@ -49,17 +49,16 @@ function Column(props) {
   return (
     <div
       className="column"
-      style={
-        {
-          backgroundColor: hexToRGB(color, 0.7)
-        }
-      }
+      style={{
+        backgroundColor: hexToRGB(color, 0.7)
+      }}
       onDragEnter={
         items.dragging && !tasks.length
           ? (e) => {
             if (!isLoader) {
               dragEnterHandler(
-                e, { columnIndex, taskIndex: 0 },
+                e,
+                { columnIndex, taskIndex: 0 },
                 { ...items, dispatch }
               );
             }
@@ -69,10 +68,7 @@ function Column(props) {
     >
       <div className="column-header">
         <div className="column-title">{title}</div>
-        {
-          isLoader
-          && <img className="task_loader" alt="loader" src={loader} />
-        }
+        {isLoader && <img className="task_loader" alt="loader" src={loader} />}
         <button
           type="button"
           onClick={() => dispatch(setTaskFormAC(!taskForm))}
@@ -80,14 +76,14 @@ function Column(props) {
           aria-label="some button"
         />
       </div>
-      <NewTaskForm
-        taskDispatch={dispatch}
-        setColumns={items.setColumns}
-        columnIndex={columnIndex}
-        columnId={columnId}
-        taskForm={taskForm}
-      />
       <div className="task-wrapper">
+        <NewTaskForm
+          taskDispatch={dispatch}
+          setColumns={items.setColumns}
+          columnIndex={columnIndex}
+          columnId={columnId}
+          taskForm={taskForm}
+        />
         {tasksRender}
       </div>
     </div>

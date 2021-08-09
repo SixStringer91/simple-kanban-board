@@ -4,6 +4,7 @@ import {
   VIEW_ASSIGNEE,
   VIEW_DATE
 } from '../../utils/constants';
+import logo from '../../assets/title-scand.svg';
 
 function Header({ dispatch, state }) {
   const { descriptionView, assigneeView, dateView } = state;
@@ -16,6 +17,7 @@ function Header({ dispatch, state }) {
   };
   return (
     <div className="header">
+      <img className="scand-logo" src={logo} alt="scand-logo" />
       <div className="check-box__wrapper">
 
         <label className="custom-checkbox">
