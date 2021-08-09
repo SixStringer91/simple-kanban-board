@@ -10,7 +10,12 @@ export const dragEnterHandler = async (e, params, items) => {
   const {
     dragItem, dragParams, dragNode, dispatch, columnIds, dragDispatch
   } = items;
-  if (e.target !== dragNode.current) {
+  const target = e.target.closest('.task');
+  const isColumnHasTask = target
+    ? (e.clientY >= target.offsetTop + (target.offsetHeight / 2))
+    : true;
+  if (target !== dragNode.current
+    && isColumnHasTask) {
     if (dragParams.current.columnId !== columnIds[params.columnIndex]) {
       dragDispatch.current(
         deleteTaskAC({

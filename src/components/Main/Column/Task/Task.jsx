@@ -74,7 +74,9 @@ function Task(props) {
           className="close"
         />
       </div>
-      <div className="task-discription">{descriptionView && description}</div>
+      <div className="task-discription">
+        {descriptionView && description}
+      </div>
       <div className="task-footer">
         <div className="title-publish_date">
           {dateView && timeHandler(publishDate)}
