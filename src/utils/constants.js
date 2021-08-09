@@ -13,7 +13,6 @@ export const SET_LOADER = 'SET_LOADER';
 export const SET_TASK_FORM = 'SET_TASK_FORM';
 export const SET_TASK_FORM_SUBMIT = 'SET_TASK_FORM_SUBMIT';
 export const SET_ALL_TASKS = 'SET_ALL_TASKS';
-export const SET_TASK_IN_SAME_COLUMN = 'SET_TASK_IN_SAME_COLUMN';
 export const SET_COLOR = 'SET_COLOR';
 export const SET_TITLE = 'SET_TITLE';
 export const RESET_FORM = 'RESET_FORM';

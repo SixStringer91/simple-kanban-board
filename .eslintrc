@@ -18,8 +18,9 @@
         "some": ["nesting", "id"]
       }
     }],
-    "import/prefer-default-export": "off",
+    "import/prefer-default-export": 0,
     "react/prop-types": 0,
+    "no-case-declarations":0,
     "max-len": [2, 80, 4, {"ignoreUrls": true}],
     "comma-dangle": ["error", {
       "arrays": "never",

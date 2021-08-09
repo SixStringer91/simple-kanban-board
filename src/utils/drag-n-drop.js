@@ -2,38 +2,30 @@ import { deleteTask, updateTask } from './fetchings';
 import {
   setAllTasksAC,
   setLoaderAC,
-  setTaskInSameColumnAC,
   deleteTaskAC,
   addTaskAC
 } from '../reducers/column-reducer';
 
-export const dragEnterHandler = (e, params, items) => {
+export const dragEnterHandler = async (e, params, items) => {
   const {
     dragItem, dragParams, dragNode, dispatch, columnIds, dragDispatch
   } = items;
   if (e.target !== dragNode.current) {
-    if (dragParams.current.columnId === columnIds[params.columnIndex]) {
-      dispatch(
-        setTaskInSameColumnAC({
-          taskIndex: params.taskIndex,
-          dragIndex: dragItem.current.taskIndex
-        })
-      );
-    } else {
-      dragParams.current.columnId = columnIds[params.columnIndex];
+    if (dragParams.current.columnId !== columnIds[params.columnIndex]) {
       dragDispatch.current(
         deleteTaskAC({
           taskIndex: dragItem.taskIndex
         })
       );
       dragDispatch.current = dispatch;
-      dragDispatch.current(
-        addTaskAC({
-          taskIndex: params.taskIndex,
-          dragParams: dragParams.current
-        })
-      );
+      dragParams.current.columnId = columnIds[params.columnIndex];
     }
+    dragDispatch.current(
+      addTaskAC({
+        taskIndex: params.taskIndex,
+        dragParams: dragParams.current
+      })
+    );
     dragItem.current = params;
   }
 };

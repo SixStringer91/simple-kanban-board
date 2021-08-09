@@ -4,7 +4,6 @@ import {
   SET_LOADER,
   SET_TASK_FORM,
   SET_ALL_TASKS,
-  SET_TASK_IN_SAME_COLUMN,
   SET_TASK_FORM_SUBMIT
 } from '../utils/constants';
 
@@ -38,11 +37,6 @@ export const setAllTasksAC = (payload) => ({
   payload
 });
 
-export const setTaskInSameColumnAC = (payload) => ({
-  type: SET_TASK_IN_SAME_COLUMN,
-  payload
-});
-
 export const initialState = {
   tasks: [],
   isLoader: true,
@@ -51,10 +45,15 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   const tasks = [...state.tasks];
-  const { taskIndex, dragIndex } = action.payload;
   switch (action.type) {
     case ADD_TASK:
-      tasks.splice(taskIndex, 0, action.payload.dragParams);
+      const index = tasks.findIndex(
+        (el) => el.id === action.payload.dragParams.id
+      );
+      if (index !== -1) {
+        tasks.splice(index, 1);
+      }
+      tasks.splice(action.payload.taskIndex, 0, action.payload.dragParams);
       return {
         ...state,
         isLoader: true,
@@ -88,13 +87,6 @@ export const reducer = (state, action) => {
         ...state,
         isLoader: false,
         tasks: [...action.payload]
-      };
-    case SET_TASK_IN_SAME_COLUMN:
-      tasks.splice(taskIndex, 0, tasks.splice(dragIndex, 1)[0]);
-      return {
-        ...state,
-        isLoader: true,
-        tasks
       };
 
     default:

@@ -12,6 +12,7 @@ import {
 } from '../../../reducers/column-reducer';
 
 function Column(props) {
+  const [state, dispatch] = useReducer(reducer, initialState);
   const {
     items,
     columnId,
@@ -20,9 +21,10 @@ function Column(props) {
     title,
     settings
   } = props;
-  const [state, dispatch] = useReducer(reducer, initialState);
-
-  const { tasks, isLoader, taskForm } = state;
+  const {
+    tasks, isLoader, taskForm
+  } = state;
+  console.log(columnId);
 
   useEffect(() => {
     fetchColumnTasks(columnId, dispatch);
@@ -31,7 +33,7 @@ function Column(props) {
   const tasksRender = tasks.map(
     (task, taskIndex) => (
       <Task
-        key={task.id}
+        key={`${task.id}`}
         {
         ...{
           items,
