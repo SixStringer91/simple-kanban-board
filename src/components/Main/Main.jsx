@@ -7,11 +7,11 @@ import { getBoard } from '../../utils/fetchings';
 import loader from '../../assets/loader.svg';
 
 function Main({ settings }) {
-  const dragItem = useRef(null);
+  const dragIndex = useRef(null);
   const dragNode = useRef(null);
   const dragDispatch = useRef(null);
-  const dragParams = useRef(null);
-  const [dragging, setDragging] = useState(false);
+  const dragContent = useRef(null);
+  const [isDragging, setIsDragging] = useState(false);
   const [columns, setColumns] = useState(null);
 
   useEffect(() => {
@@ -27,13 +27,13 @@ function Main({ settings }) {
 
   const items = {
     setColumns,
-    setDragging,
-    dragItem,
+    setIsDragging,
+    isDragging,
+    dragIndex,
     dragNode,
-    dragging,
-    columnIds,
     dragDispatch,
-    dragParams
+    dragContent,
+    columnIds
   };
 
   const columnsRender = columns && columns.map(({

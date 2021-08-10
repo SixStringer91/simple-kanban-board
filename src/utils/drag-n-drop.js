@@ -8,69 +8,69 @@ import {
 
 export const dragEnterHandler = async (e, params, items) => {
   const {
-    dragItem, dragParams, dragNode, dispatch, columnIds, dragDispatch
+    dragIndex, dragContent, dragNode, dispatch, columnIds, dragDispatch
   } = items;
   const target = e.target.closest('.task');
   const isColumnHasTask = target
-    ? (e.clientY >= target.offsetTop + (target.offsetHeight / 3))
+    ? (e.clientY >= target.offsetTop + (target.offsetHeight / 2))
     : true;
   if (target !== dragNode.current
     && isColumnHasTask) {
-    if (dragParams.current.columnId !== columnIds[params.columnIndex]) {
+    if (dragContent.current.columnId !== columnIds[params.columnIndex]) {
       dragDispatch.current(
         deleteTaskAC({
-          taskIndex: dragItem.current.taskIndex
+          taskIndex: dragIndex.current.taskIndex
         })
       );
     }
     dragDispatch.current = dispatch;
-    dragParams.current.columnId = columnIds[params.columnIndex];
+    dragContent.current.columnId = columnIds[params.columnIndex];
     dragDispatch.current(
       addTaskAC({
         taskIndex: params.taskIndex,
-        dragParams: dragParams.current
+        dragContent: dragContent.current
       })
     );
-    dragItem.current = params;
+    dragIndex.current = params;
   }
 };
 
 export const dragEndHandler = async (items) => {
   const {
-    dragItem,
+    dragIndex,
     dragNode,
     columnIds,
-    setDragging,
+    setIsDragging,
     dragDispatch,
-    dragParams
+    dragContent
   } = items;
-  const params = dragItem.current;
+  const params = dragIndex.current;
   const { columnIndex, taskIndex } = params;
   const { id } = dragNode.current.dataset;
   const columnId = columnIds[columnIndex];
   const updatedTasks = await updateTask({ id, columnId, taskIndex });
   dragDispatch.current(setAllTasksAC(updatedTasks));
-  dragItem.current = null;
+  dragIndex.current = null;
   dragNode.current = null;
   dragDispatch.current = null;
-  dragParams.current = null;
-  setDragging(false);
+  dragContent.current = null;
+  setIsDragging(false);
 };
 
 export const dragStartHandler = (e, params, items) => {
   const target = e.target.closest('.task');
   const {
-    dragItem,
+    dragIndex,
     dragNode,
-    setDragging,
-    dragParams,
+    setIsDragging,
+    dragContent,
     dragDispatch,
     dispatch,
     task
   } = items;
-  dragItem.current = params;
+  dragIndex.current = params;
   dragNode.current = target;
-  dragParams.current = task;
+  dragContent.current = task;
   dragDispatch.current = dispatch;
   dragDispatch.current(setLoaderAC(true));
   dragNode.current.addEventListener(
@@ -79,7 +79,7 @@ export const dragStartHandler = (e, params, items) => {
     { once: true }
   );
   setTimeout(() => {
-    setDragging(true);
+    setIsDragging(true);
   }, 0);
 };
 

@@ -45,16 +45,16 @@ export const initialState = {
 
 export const reducer = (state, action) => {
   const tasks = [...state.tasks];
-  const { taskIndex, dragParams } = action.payload;
+  const { taskIndex, dragContent } = action.payload;
   switch (action.type) {
     case ADD_TASK:
       const index = tasks.findIndex(
-        (el) => el.id === action.payload.dragParams.id
+        (el) => el.id === action.payload.dragContent.id
       );
       if (index !== -1) {
         tasks.splice(index, 1);
       }
-      tasks.splice(taskIndex, 0, dragParams);
+      tasks.splice(taskIndex, 0, dragContent);
       return {
         ...state,
         isLoader: true,

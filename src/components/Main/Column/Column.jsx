@@ -53,7 +53,7 @@ function Column(props) {
         backgroundColor: hexToRGB(color, 0.7)
       }}
       onDragEnter={
-        items.dragging && !tasks.length
+        items.isDragging && !tasks.length
           ? (e) => {
             if (!isLoader) {
               dragEnterHandler(

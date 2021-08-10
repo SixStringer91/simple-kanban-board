@@ -16,7 +16,7 @@ function Task(props) {
   } = settings;
 
   const getStyles = (params) => {
-    const currentTask = items.dragItem.current;
+    const currentTask = items.dragIndex.current;
     if (
       currentTask.columnIndex === params.columnIndex
       && currentTask.taskIndex === params.taskIndex
@@ -41,7 +41,7 @@ function Task(props) {
     <div
       data-id={id}
       className={
-        items.dragging ? getStyles({ columnIndex, taskIndex }) : 'task'
+        items.isDragging ? getStyles({ columnIndex, taskIndex }) : 'task'
       }
       draggable={!isLoader}
       onDragStart={
@@ -50,7 +50,7 @@ function Task(props) {
         )
       }
       onDragEnter={
-        items.dragging
+        items.isDragging
           ? (e) => dragEnterHandler(
             e, { columnIndex, taskIndex }, { ...items, dispatch }
           )
